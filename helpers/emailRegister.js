@@ -20,7 +20,7 @@ const emailRegister = async (date) => {
         text: 'Comprueba tu cuenta APD',
         html: `<p> Hola ${name}, comprueba tu cuenta APD.</p>
                <p> Tu cuenta ya esta lista, solo debes comprobarla ingresando
-                   al siguiente link  <a href="${process.env.FRONTEND_URL}/confirm/${token}">Comprobar cuenta</a> </p>
+                   al siguiente link  <a href="${process.env.FRONTEND_URL}/confirm/${token}">Recover Password</a> </p>
                 <p> Si vos no creaste la cuenta, puedes ignorar este mensaje </p>`,
 
     })

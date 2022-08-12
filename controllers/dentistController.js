@@ -2,6 +2,7 @@ import Dentist from "../models/Dentist.js";
 import generarJWT from "../helpers/generateJWT.js";
 import generateTK from "../helpers/generateTK.js";
 import emailRegister from "../helpers/emailRegister.js";
+import emailRecoverPass from "../helpers/emailRecoverPass.js";
 
 //function for register a dentist
 const register = async (req, res) => {
@@ -94,6 +95,14 @@ const recoverPassword = async (req, res) => {
     try {
         userExist.token = generateTK()
         await userExist.save();
+
+        emailRecoverPass({
+            email,
+            name: userExist.name,
+            token: userExist.token
+        })
+
+
         res.json({ msg: 'Se le envio un correo con las instrucciones' });
     } catch (error) {
         console.log(error.message);
