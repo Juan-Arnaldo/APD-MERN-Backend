@@ -34,7 +34,7 @@ const profile = (req, res) => {
 
     const { dent } = req;
 
-    res.send({ dent });
+    res.send(dent);
 }
 
 //function for confirm a dentist
@@ -62,7 +62,7 @@ const confirm = async (req, res) => {
 
 const authenticateUser = async (req, res) => {
     const { email, password } = req.body;
-
+    
     const userConfirm = await Dentist.findOne({ email });
 
     if (!userConfirm) {
