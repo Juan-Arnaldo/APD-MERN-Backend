@@ -76,7 +76,14 @@ const authenticateUser = async (req, res) => {
     }
 
     if (await userConfirm.authenticatePass(password)) {
-        res.json({ token: generarJWT(userConfirm.id) })
+        userConfirm.token = generarJWT(userConfirm._id)
+        res.json({
+            _id: userConfirm._id,
+            name: userConfirm.name,
+            email:userConfirm.email,
+            token: generarJWT(userConfirm._id),
+            phone: userConfirm.phone,
+        })
     } else {
         const error = new Error('El password es incorrecto');
         res.status(403).json({ msg: error.message });
