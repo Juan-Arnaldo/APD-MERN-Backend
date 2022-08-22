@@ -1,12 +1,11 @@
-import moment from "moment";
-import Appoinment from "../models/appointment.js";
+import appointment from "../models/Appointment.js";
 import Patient from "../models/Patient.js";
 
-//Function to create new appoiment
-const newAppoiment = async (req, res) => {
+//Function to create new appointment
+const newappointment = async (req, res) => {
     const { date, id } = req.body;
 
-    const appoimentExist = await Appoinment.findOne({date}).where('dentist').equals(req.dent);
+    const appointmentExist = await appointment.findOne({date}).where('dentist').equals(req.dent);
 
     // console.log(date);
     // var aux = moment(date).add(59, 'minutes').parseZone();
@@ -18,7 +17,7 @@ const newAppoiment = async (req, res) => {
     //     console.log('es invalido');
     // }
 
-    if(appoimentExist){
+    if(appointmentExist){
         const e = new Error('Esa hora ya se encuentra ocupada');
         return res.status(400).json({msg : e.message});
     }
@@ -36,91 +35,91 @@ const newAppoiment = async (req, res) => {
     }
 
     try {
-        const appoiment = new Appoinment(req.body);
-        appoiment.patient = patient._id;
-        appoiment.dentist = req.dent._id;
-        const saveAppoiment = await appoiment.save();
-        res.json(saveAppoiment);
+        const appointment = new appointment(req.body);
+        appointment.patient = patient._id;
+        appointment.dentist = req.dent._id;
+        const saveappointment = await appointment.save();
+        res.json(saveappointment);
     } catch (error) {
         console.log(error.message);
     }
 };
 
-//Function to get all appoiments
-const getAllAppoiment = async (req, res) => {
+//Function to get all appointments
+const getAllappointment = async (req, res) => {
     try {
-        const appoiments = await Appoinment.find().where('dentist').equals(req.dent);
-        res.json(appoiments)
+        const appointments = await appointment.find().where('dentist').equals(req.dent);
+        res.json(appointments)
     } catch (error) {
         res.status(404).json({msg : error.message});
     }
 };
 
-//Function to get a particular appoiment
-const getAppoiment = async (req, res) => {
+//Function to get a particular appointment
+const getappointment = async (req, res) => {
     const {id} = req.params
-    const appoiment = await Appoinment.findById(id);
+    const appointment = await appointment.findById(id);
 
-    if(!appoiment){
+    if(!appointment){
         const e = new Error('No existe el turno buscado');
         return res.status(400).json({msg : e.message});
     }
 
-    if(appoiment.dentist.toString() !== req.dent._id.toString()){
+    if(appointment.dentist.toString() !== req.dent._id.toString()){
         const e = new Error('Accion no valida');
         return res.status(400).json({msg : e.message});
     }
 
     try {
-        res.json(appoiment);
+        res.json(appointment);
     } catch (error) {
         console.log(error.message);
     }
 };
 
-//function to update a particular appoiment
-const updateAppoiment = async (req, res) => {
+//function to update a particular appointment
+const updateappointment = async (req, res) => {
     const {id} = req.params
-    const appoiment = await Appoinment.findById(id)
+    const appointment = await appointment.findById(id)
 
-    if(!appoiment){
+    if(!appointment){
         const e = new Error('No existe el turno buscado');
         res.status(403).json({msg : e.message});
     }
 
-    if(appoiment.dentist.toString() !== req.dent._id.toString()){
+    if(appointment.dentist.toString() !== req.dent._id.toString()){
         const e = new Error('Accion no valida');
         res.status(403).json({msg : e.message});
     }
 
-    appoiment.date = req.body.date || appoiment.date;
-    appoiment.comment = req.body.comment || appoiment.comment;
+    appointment.date = req.body.date || appointment.date;
+    appointment.comment = req.body.comment || appointment.comment;
 
     try {
-        const updateAppoiment = await appoiment.save()
-        res.json(updateAppoiment);
+        const updateappointment = await appointment.save()
+        res.json(updateappointment);
     } catch (error) {
         console.log(error.message);
     }
 };
 
-//function to delete a particular appoiment
-const deleteAppoiment = async (req, res) => {
+//function to delete a particular appointment
+const deleteappointment = async (req, res) => {
     const {id} = req.params
-    const appoiment = await Appoinment.findById(id);
+    const appointment = await appointment.findById(id);
 
-    if(!appoiment){
+    if(!appointment){
         const e = new Error('No existe el turno buscado');
         return res.status(403).json({msg : e.message});
     }
 
-    if(appoiment.dentist.toString() !== req.dent._id.toString()){
+    if(appointment.dentist.toString() !== req.dent._id.toString()){
         const e = new Error('Accion no valida');
         return res.status(403).json({msg : e.message});
     }
 
     try {
-        appoiment.deleteOne();
+        appointment.deleteOne();
         res.json({msg : 'Turno eliminado correctamente'});
     } catch (error) {
         console.log(error,message);
@@ -128,9 +127,9 @@ const deleteAppoiment = async (req, res) => {
 };
 
 export {
-    newAppoiment,
-    getAppoiment,
-    getAllAppoiment,
-    updateAppoiment,
-    deleteAppoiment
+    newappointment,
+    getappointment,
+    getAllappointment,
+    updateappointment,
+    deleteappointment
 }

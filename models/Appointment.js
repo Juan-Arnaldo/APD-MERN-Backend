@@ -1,6 +1,6 @@
 import moment from "moment";
 import mongoose from "mongoose";
-const appoinmentSchema = mongoose.Schema(
+const appointmentSchema = mongoose.Schema(
     {
         date : {
             type : Date,
@@ -24,6 +24,6 @@ const appoinmentSchema = mongoose.Schema(
     }
 )
 
-const appoinment = mongoose.model('appoiment', appoinmentSchema);
+const appointment = mongoose.model('appointment', appointmentSchema);
 
-export default appoinment;
+export default appointment;
